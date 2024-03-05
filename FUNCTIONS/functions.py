@@ -56,9 +56,9 @@ def air_url(search_query):
 
 
 
-search_query = input("Please enter the search query: ")
-url = air_url(search_query)
-print("The URL of the page is:", url)
+    search_query = input("Please enter the search query: ")
+    url = air_url(search_query)
+    print("The URL of the page is:", url)
 
 
 def get_air_quality_data(city):
@@ -72,7 +72,7 @@ def get_air_quality_data(city):
         if 'error' in air_quality_data:
             raise ValueError("Error: City not found in the database")
         else:
-            # Convert the JSON data to a dataframe
+           
             data = {k.lower(): [v['concentration'], v['aqi']] for k, v in air_quality_data.items() if k != 'overall_aqi'}
             data['overall_aqi'] = [None, air_quality_data['overall_aqi']]
             pollution_df = pd.DataFrame(data)
@@ -80,8 +80,8 @@ def get_air_quality_data(city):
     else:
         raise requests.ConnectionError(f"Error: {response.status_code} - {response.text}")
 
-# Test the function with a city
-city_name = input("Enter a city name: ")  # Prompt the user to enter a city name
+
+city_name = input("Enter a city name: ")  
 try:
     pollution_df = get_air_quality_data(city_name)
     print(pollution_df)
@@ -89,3 +89,19 @@ except ValueError as ve:
     print(ve)
 except requests.ConnectionError as ce:
     print(ce)
+
+
+
+
+def scrape_air_data(returned_url):
+    import pandas as pd
+
+    df_time = pd.read_html(returned_url)[0]
+    df_similar = pd.read_html(returned_url)[1]
+    df_stations = pd.read_html(returned_url)[2]
+    df_index = pd.read_html(returned_url)[3]
+    df_poll = pd.read_html(returned_url)[4]
+    df_recomendations = pd.read_html(returned_url)[5]
+    df_temp_pol_wind = pd.read_html(returned_url)[6]
+
+    return df_time, df_similar, df_stations, df_index, df_poll, df_recomendations, df_temp_pol_wind
