@@ -127,3 +127,19 @@ city_name = input('Enter the city name: ')
 city_df = get_city_data(city_name)
 if city_df is not None:
     print(city_df)
+
+
+
+
+
+def make_predictions_for_df(model, joined_df, num_predictions):
+    import pandas as pd
+    if __name__ == "__main__":
+        # Expand the joined DataFrame to create a larger dataset for making predictions
+        expanded_df = pd.concat([joined_df] * (num_predictions // len(joined_df) + 1), ignore_index=True)
+        expanded_df = expanded_df.iloc[:num_predictions]
+
+        # Apply the model's prediction method to the expanded DataFrame
+        predictions = model.predict(expanded_df)
+
+        return predictions

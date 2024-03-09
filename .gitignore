@@ -1,1 +1,3 @@
 *.csv
+/APP/model/pred_model.joblib
+/MODEL/pred_model.joblib
