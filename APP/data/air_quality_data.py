@@ -1,6 +1,3 @@
-import pandas as pd
-import requests
-
 def get_air_quality_data(city):
     import pandas as pd
     import requests
@@ -14,11 +11,15 @@ def get_air_quality_data(city):
             data = {k.lower(): [v['concentration'], v['aqi']] for k, v in air_quality_data.items() if k != 'overall_aqi'}
             data['overall_aqi'] = [None, air_quality_data['overall_aqi']]
             pollution_df = pd.DataFrame(data)
+            
+            # Fill NaN values with 0
+            pollution_df = pollution_df.fillna(0)
+            
             return pollution_df
     else:
         raise requests.ConnectionError(f"Error: {response.status_code} - {response.text}")
 
-# For testing: 
+# For testing:
 if __name__ == "__main__":
     city_name = input("Enter a city name: ")
     try:

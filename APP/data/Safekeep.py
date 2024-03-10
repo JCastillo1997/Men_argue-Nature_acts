@@ -57,24 +57,16 @@ def main():
             st.write("Joined Data:")
             st.write(joined_df)
 
-            make_prediction = st.radio("Do you want to make a prediction?", ["Yes", "No"])
+            make_prediction = st.radio("Do you want to make a prediction?", ("Yes", "No"))
 
             if make_prediction == "Yes":
                 num_rows = st.number_input("How many rows do you want predicted?", min_value=1)
 
-                if num_rows:
-                    # Dropping specified columns from the joined DataFrame
-                    columns_to_drop = ['latitude', 'longitude', 'name', 'country', 'is_capital', 'population']
-                    modified_joined_df = joined_df.drop(columns_to_drop, axis=1, errors='ignore')
-
-                    # Ensure modified_joined_df is not empty after dropping columns
-                    if not modified_joined_df.empty:
-                        model_path = "C://Users//Usuario//Documents//Men_argue-Nature_acts//APP//model//pred_model.joblib"
-                        predictions = make_predictions_for_df(modified_joined_df, num_rows, model_path)
-                        st.write("Predictions:")
-                        st.write(predictions)
-                    else:
-                        st.write("Error: DataFrame is empty after dropping columns")
+                if num_rows:  # Ensure num_rows is not empty
+                    model_path = "C://Users//Usuario//Documents//Men_argue-Nature_acts//APP//model//pred_model.joblib"
+                    predictions = make_predictions_for_df(joined_df, num_rows, model_path)
+                    st.write("Predictions:")
+                    st.write(predictions)
 
         except ValueError as ve:
             st.write(ve)

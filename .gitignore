@@ -1,3 +1,5 @@
 *.csv
 /APP/model/pred_model.joblib
 /MODEL/pred_model.joblib
+/APP/data/__pycache__
+/FUNCTIONS/__pycache__
