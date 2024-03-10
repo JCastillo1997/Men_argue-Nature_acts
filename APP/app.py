@@ -1,6 +1,4 @@
 import sklearn; print(sklearn.__version__)
-
-
 import streamlit as st
 import numpy as np
 import pandas as pd
@@ -10,6 +8,7 @@ from data.get_city_data import get_city_data
 from data.make_predictions_for_df import make_predictions_for_df
 import requests
 from joblib import load
+
 
 custom_css = """
 <style>
@@ -27,59 +26,63 @@ st.markdown(custom_css, unsafe_allow_html=True)
 
 st.markdown('<h1 class="title">Welcome to the Jungle</h1>', unsafe_allow_html=True)
 
-@st.cache
-def load_data(filename):
-    data = pd.read_csv(filename)
-    return data
+def fetch_data(city):
+    # Fetch air quality data
+    air_quality_df = get_air_quality_data(city)
 
+    # Fetch city data
+    city_df = get_city_data(city)
 
+    # Create a common key for joining
+    air_quality_df['key'] = 1
+    city_df['key'] = 1
+
+    # Join the dataframes
+    merged_df = pd.merge(city_df,air_quality_df,on='key')
+
+    # Drop the created key
+    merged_df.drop(columns=['key'], inplace=True)
+
+    # Calculate average values for numeric columns
+    numeric_columns = merged_df.select_dtypes(include=['number']).columns
+    avg_row = merged_df[numeric_columns].mean()
+
+    return merged_df, avg_row
+
+# Function to make predictions
+def make_predictions(city, num_predictions):
+    # Fetch data for the city and calculate average values
+    merged_df, avg_row = fetch_data(city)
+
+    # Make predictions using the provided function
+    predictions_df = make_predictions_for_df(merged_df, num_predictions)
+
+    return predictions_df, avg_row
+
+# Streamlit app
 def main():
-    st.title('Data Analysis')
+    st.title('Air Quality, City Data, and Predictions App')
 
-    city_name = st.text_input("Enter the city name", "New York")
+    # Get city input from the user
+    city_input = st.text_input('Enter a city name:', 'New York')
 
-    if st.button('Get Air and City Data'):
-        try:
-            pollution_df = get_air_quality_data(city_name)  # Assuming get_air_quality_data function is defined
-            city_df = get_city_data(city_name)  # Assuming get_city_data function is defined
+    # Get the number of predictions from the user
+    num_predictions = 1
 
-            # Create a common key for joining
-            pollution_df['city'] = city_name
-            city_df['city'] = city_name
+    if st.button('Fetch Data and Make Predictions'):
+        # Fetch and display the data
+        st.write(f'Fetching data for {city_input}...')
+        data, avg_row = fetch_data(city_input)
+        st.write(data)
 
-            # Perform the join operation based on the common key
-            joined_df = pd.merge(city_df, pollution_df, on='city', how='outer')
+        # Display average values for numeric columns
+        st.write('Average Values for Numeric Columns:')
+        st.write(avg_row)
 
-            # Remove the key used for joining
-            joined_df = joined_df.drop(columns=['city'])
-
-            # Display the joined data
-            st.write("Joined Data:")
-            st.write(joined_df)
-
-            make_prediction = st.radio("Do you want to make a prediction?", ["Yes", "No"])
-
-            if make_prediction == "Yes":
-                num_rows = st.number_input("How many rows do you want predicted?", min_value=1)
-
-                if num_rows:
-                    # Dropping specified columns from the joined DataFrame
-                    columns_to_drop = ['latitude', 'longitude', 'name', 'country', 'is_capital', 'population']
-                    modified_joined_df = joined_df.drop(columns_to_drop, axis=1, errors='ignore')
-
-                    # Ensure modified_joined_df is not empty after dropping columns
-                    if not modified_joined_df.empty:
-                        model_path = "C://Users//Usuario//Documents//Men_argue-Nature_acts//APP//model//pred_model.joblib"
-                        predictions = make_predictions_for_df(modified_joined_df, num_rows, model_path)
-                        st.write("Predictions:")
-                        st.write(predictions)
-                    else:
-                        st.write("Error: DataFrame is empty after dropping columns")
-
-        except ValueError as ve:
-            st.write(ve)
-        except requests.ConnectionError as ce:
-            st.write(ce)
+        # Make predictions and display the result
+        st.write(f'Making {num_predictions} predictions...')
+        predictions, _ = make_predictions(city_input, num_predictions)
+        st.write(predictions)
 
 if __name__ == '__main__':
     main()

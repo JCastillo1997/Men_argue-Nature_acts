@@ -19,7 +19,6 @@ def get_air_quality_data(city):
     else:
         raise requests.ConnectionError(f"Error: {response.status_code} - {response.text}")
 
-# For testing:
 if __name__ == "__main__":
     city_name = input("Enter a city name: ")
     try:
