@@ -12,7 +12,7 @@ def get_air_quality_data(city):
             data['overall_aqi'] = [None, air_quality_data['overall_aqi']]
             pollution_df = pd.DataFrame(data)
             
-            # Fill NaN values with 0
+            
             pollution_df = pollution_df.fillna(0)
             
             return pollution_df
