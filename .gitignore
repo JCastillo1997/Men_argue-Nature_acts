@@ -3,3 +3,4 @@
 /MODEL/pred_model.joblib
 /APP/data/__pycache__
 /FUNCTIONS/__pycache__
+/APP/data/Safekeep.py

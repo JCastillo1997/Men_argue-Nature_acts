@@ -45,7 +45,7 @@ def fetch_data(city):
     merged_df = pd.merge(city_df, air_quality_df, on='key')
     merged_df.drop(columns=['key'], inplace=True)
     numeric_columns = merged_df.select_dtypes(include=['number']).columns
-    avg_row = merged_df[numeric_columns].mean()
+    avg_row = merged_df[numeric_columns].sum()
     return merged_df, avg_row
 
 
@@ -57,8 +57,26 @@ def make_predictions(city, num_predictions):
 def display_map(data):
     st.map(data)
 
-import streamlit as st
 
+def plot_pollution_comparison(df1, df2):
+    pollutants = ['co', 'no2', 'o3', 'so2', 'pm2.5', 'pm10']
+    
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    for pollutant in pollutants:
+        ax.plot(pollutants, df1[pollutant], label=f'{pollutant} - Average Rows', marker='o')
+        ax.plot(pollutants, df2[pollutant], label=f'{pollutant} - Predictions', marker='o')
+    
+    ax.set_xlabel('Pollutant')
+    ax.set_ylabel('Quantity')
+    ax.set_title('Comparison of Pollution Levels')
+    ax.legend()
+    ax.grid(True)
+    
+    plt.xticks(rotation=45, ha='right')
+    st.pyplot(fig)
+
+# Your existing main function
 def main():
     data = None
     st.markdown("<h2 style='color: #fff; font-size: 16px;'>Welcome, in this app you may input a city, obtain some data about pollution about said city and get an insight based on Madrid pollution policies</h2>", unsafe_allow_html=True)
@@ -78,10 +96,10 @@ def main():
         predictions, _ = make_predictions(city_input, num_predictions)
         st.write(predictions)
 
-    # Divide the layout into two columns
+   
     col1, col2 = st.columns([2, 3])
 
-    # Compare values when the user selects a pollutant
+    
     pred_button = st.text_input('Would you like to compare predictions with average values? (yes/no)', 'no')
     if pred_button.lower() == 'yes':
         if data is not None and not data.empty:
@@ -89,24 +107,24 @@ def main():
                 st.write("Comparison Results")
                 selected_variables = ['co', 'no2', 'so2', 'pm2.5', 'pm10']
 
-                # Retrieve predictions based on selected variables
+                
                 selected_predictions = predictions[selected_variables]
 
-                # Compare values and calculate percentage difference
+                
                 comparison_result = {}
                 for variable in selected_variables:
                     average_value = avg_row[variable]
                     prediction_value = selected_predictions[variable]
 
-                    # Calculate percentage difference
+                    
                     percentage_difference = ((prediction_value - average_value) / average_value) * 100
 
-                    # Store comparison result
+                   
                     comparison_result[variable] = {'average_value': average_value,
                                                     'prediction_value': prediction_value,
                                                     'percentage_difference': percentage_difference}
 
-                # Display comparison results
+                
                 for variable, values in comparison_result.items():
                     st.write(f"{variable.upper()} (Average Value: {values['average_value']:.3f})")
                     st.write(f"Prediction Value: {values['prediction_value'].iloc[0]}")
@@ -115,7 +133,7 @@ def main():
         else:
             st.write("Please fetch data first before comparing predictions.")
 
-    # Display the map
+    
     with col2:
         if data is not None and not data.empty:
             with st.expander("Map", expanded=True):
@@ -123,39 +141,133 @@ def main():
     
 
     col1, col2 = st.columns(2)
-
-    # Add your content to each column
     with col1:
-        st.write("Column 1")
         plt.style.use('dark_background')
+
         if data is not None and not data.empty:
             fig, ax = plt.subplots()
+            prediction_color = "#00C18B"
+            average_color = "#003333"  
+            sns.barplot(x=['Average', 'Prediction'], y=[avg_row['co'], predictions['co'].mean()], 
+                ax=ax, alpha=0.7, palette=[average_color, prediction_color])
             
-            # Set the palette to a set of colors suitable for dark themes
-            sns.set_palette("husl")
-            
-            # Create the bar plot with transparency
-            sns.barplot(x=['Average', 'Prediction'], y=[avg_row['co'], predictions['co'].mean()], ax=ax, alpha=0.7)
-            
-            # Set the title and labels
             ax.set_title('Comparison of CO Levels')
             ax.set_ylabel('CO Levels')
-            ax.set_xlabel('Type')
-            
-            # Set transparent background
+
             ax.patch.set_alpha(0)
             fig.patch.set_alpha(0)
-
-            # Remove spines
             ax.spines['top'].set_visible(False)
             ax.spines['right'].set_visible(False)
+            ax.yaxis.grid(color='white', linestyle='--', linewidth=0.5)
 
             st.pyplot(fig)
-    with col2:
-        st.write("Column 1")
-    
 
+        with col2:
+            plt.style.use('dark_background')
 
+            if data is not None and not data.empty:
+                fig, ax = plt.subplots()
+                prediction_color = "#AF4FD1"
+                average_color = "#49235C"  
+                sns.barplot(x=['Average', 'Prediction'], y=[avg_row['no2'], predictions['no2'].mean()], 
+                    ax=ax, alpha=0.7, palette=[average_color, prediction_color])
+                
+                ax.set_title('Comparison of no2 Levels')
+                ax.set_ylabel('no2 Levels')
+                ax.patch.set_alpha(0)
+                fig.patch.set_alpha(0)
+                ax.spines['top'].set_visible(False)
+                ax.spines['right'].set_visible(False)
+                ax.yaxis.grid(color='white', linestyle='--', linewidth=0.5)
+
+                st.pyplot(fig)
+
+    # Add line chart comparison after bar plots
+    col1, col2 = st.columns(2)
+    with col1:
+        plt.style.use('dark_background')
+
+        if data is not None and not data.empty:
+            fig, ax = plt.subplots()
+            prediction_color = "#30A3D9"
+            average_color = "#1C5875"  
+            sns.barplot(x=['Average', 'Prediction'], y=[avg_row['o3'], predictions['o3'].mean()], 
+                ax=ax, alpha=0.7, palette=[average_color, prediction_color])
+            
+            ax.set_title('Comparison of O3 Levels')
+            ax.set_ylabel('O3 Levels')
+            ax.patch.set_alpha(0)
+            fig.patch.set_alpha(0)
+            ax.spines['top'].set_visible(False)
+            ax.spines['right'].set_visible(False)
+            ax.yaxis.grid(color='white', linestyle='--', linewidth=0.5)
+
+            st.pyplot(fig)
+
+        with col2:
+            plt.style.use('dark_background')
+
+            if data is not None and not data.empty:
+                fig, ax = plt.subplots()
+                prediction_color = "#E30000"
+                average_color = "#690000"  
+                sns.barplot(x=['Average', 'Prediction'], y=[avg_row['so2'], predictions['so2'].mean()], 
+                    ax=ax, alpha=0.7, palette=[average_color, prediction_color])
+                
+                ax.set_title('Comparison of SO2 Levels')
+                ax.set_ylabel('SO2 Levels')
+                ax.patch.set_alpha(0)
+                fig.patch.set_alpha(0)
+                ax.spines['top'].set_visible(False)
+                ax.spines['right'].set_visible(False)
+                ax.yaxis.grid(color='white', linestyle='--', linewidth=0.5)
+
+                st.pyplot(fig)
+                
+    # Line chart comparison
+    col1, col2 = st.columns(2)
+    with col1:
+        plt.style.use('dark_background')
+
+        if data is not None and not data.empty:
+            fig, ax = plt.subplots()
+            prediction_color = "#EBCF1E"
+            average_color = "#8F7C13"  
+            sns.barplot(x=['Average', 'Prediction'], y=[avg_row['pm2.5'], predictions['pm2.5'].mean()], 
+                ax=ax, alpha=0.7, palette=[average_color, prediction_color])
+            
+            ax.set_title('Comparison of Pm2.5')
+            ax.set_ylabel('Pm µm 2.5')
+            ax.patch.set_alpha(0)
+            fig.patch.set_alpha(0)
+            ax.spines['top'].set_visible(False)
+            ax.spines['right'].set_visible(False)
+            ax.yaxis.grid(color='white', linestyle='--', linewidth=0.5)
+
+            st.pyplot(fig)
+
+        with col2:
+            plt.style.use('dark_background')
+
+            if data is not None and not data.empty:
+                fig, ax = plt.subplots()
+                prediction_color = "#D3D19E"
+                average_color = "#5F5E47"  
+                sns.barplot(x=['Average', 'Prediction'], y=[avg_row['pm10'], predictions['pm10'].mean()], 
+                    ax=ax, alpha=0.7, palette=[average_color, prediction_color])
+                
+                ax.set_title('Comparison of Pm10')
+                ax.set_ylabel('Pm µm 10')
+                ax.patch.set_alpha(0)
+                fig.patch.set_alpha(0)
+                ax.spines['top'].set_visible(False)
+                ax.spines['right'].set_visible(False)
+                ax.yaxis.grid(color='white', linestyle='--', linewidth=0.5)
+
+                st.pyplot(fig)
+                
+    st.title('Pollution Level Comparison')
+    plot_pollution_comparison(avg_row, predictions)
 
 
 if __name__ == '__main__':
