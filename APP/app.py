@@ -8,6 +8,8 @@ from data.get_city_data import get_city_data
 from data.make_predictions_for_df import make_predictions_for_df
 import requests
 from joblib import load
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 custom_css = """
@@ -55,6 +57,8 @@ def make_predictions(city, num_predictions):
 def display_map(data):
     st.map(data)
 
+import streamlit as st
+
 def main():
     data = None
     st.markdown("<h2 style='color: #fff; font-size: 16px;'>Welcome, in this app you may input a city, obtain some data about pollution about said city and get an insight based on Madrid pollution policies</h2>", unsafe_allow_html=True)
@@ -82,6 +86,7 @@ def main():
     if pred_button.lower() == 'yes':
         if data is not None and not data.empty:
             with col1:
+                st.write("Comparison Results")
                 selected_variables = ['co', 'no2', 'so2', 'pm2.5', 'pm10']
 
                 # Retrieve predictions based on selected variables
@@ -98,8 +103,8 @@ def main():
 
                     # Store comparison result
                     comparison_result[variable] = {'average_value': average_value,
-                                                'prediction_value': prediction_value,
-                                                'percentage_difference': percentage_difference}
+                                                    'prediction_value': prediction_value,
+                                                    'percentage_difference': percentage_difference}
 
                 # Display comparison results
                 for variable, values in comparison_result.items():
@@ -113,8 +118,45 @@ def main():
     # Display the map
     with col2:
         if data is not None and not data.empty:
-            display_map(data[['latitude', 'longitude']])
+            with st.expander("Map", expanded=True):
+                display_map(data[['latitude', 'longitude']])
+    
+
+    col1, col2 = st.columns(2)
+
+    # Add your content to each column
+    with col1:
+        st.write("Column 1")
+        plt.style.use('dark_background')
+        if data is not None and not data.empty:
+            fig, ax = plt.subplots()
+            
+            # Set the palette to a set of colors suitable for dark themes
+            sns.set_palette("husl")
+            
+            # Create the bar plot with transparency
+            sns.barplot(x=['Average', 'Prediction'], y=[avg_row['co'], predictions['co'].mean()], ax=ax, alpha=0.7)
+            
+            # Set the title and labels
+            ax.set_title('Comparison of CO Levels')
+            ax.set_ylabel('CO Levels')
+            ax.set_xlabel('Type')
+            
+            # Set transparent background
+            ax.patch.set_alpha(0)
+            fig.patch.set_alpha(0)
+
+            # Remove spines
+            ax.spines['top'].set_visible(False)
+            ax.spines['right'].set_visible(False)
+
+            st.pyplot(fig)
+    with col2:
+        st.write("Column 1")
+    
+
+
+
 
 if __name__ == '__main__':
     main()
-
