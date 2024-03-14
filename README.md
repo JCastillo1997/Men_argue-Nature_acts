@@ -36,9 +36,6 @@
 ![Streamlit Logo](https://www.streamlit.io/images/brand/streamlit-logo-primary-colormark-darktext.png)
 
 
-
-SCREENSHOTS/Captura de pantalla 2024-03-14 093459.png)
-
 Streamlit App: Pollution Prediction and Comparison
 This Streamlit application provides a user-friendly interface for fetching air quality data, making predictions based on machine learning models, and comparing predicted pollution levels with historical averages. The app allows users to input a city name and fetch real-time air quality data, which is then used to generate predictions for future pollution levels.
 
@@ -51,6 +48,7 @@ Custom Prediction Models: Users can insert any prediction model in the designate
 Functionality:
 Data Fetching and Processing: The app fetches air quality data and city information from external sources and processes it to generate predictions.
 Prediction Generation: Machine learning models are applied to the fetched data to generate predictions for pollutant levels.
+
 ![Comparison Screenshot](SCREENSHOTS/comparison.png)
 
 Data Visualization: Predicted pollution levels are visualized using animated bar charts to compare them with historical averages.
@@ -210,7 +208,7 @@ Clone the Repository: Clone the forked repository to your local machine using Gi
 
 bash
 Copy code
-git clone https://github.com/your-username/your-forked-repo.git
+git clone https://github.com/JCastillo1997/your-forked-repo.git
 Create a Branch: Create a new branch for your contribution to work on.
 
 arduino
@@ -245,10 +243,9 @@ If you have any feedback, suggestions, or questions about the project, feel free
 
 ## Authors
 
-* **Jaime Castillo Fernández** - *LegalOps/ Data Analyst* - [Jaime Castillo Fernández](https://github.com/JCastillo1997) - *Built ReadME Template*
+* **Jaime Castillo Fernández** - *LegalOps/ Data Analyst* - [Jaime Castillo Fernández](https://github.com/JCastillo1997) 
 
-## Acknowledgements
 
-* [ShaanCoding](https://github.com/ShaanCoding/)
-* [Othneil Drew](https://github.com/othneildrew/Best-README-Template)
-* [ImgShields](https://shields.io/)
+And remember, breathe deeply and keep your lungs clean.
+
+![GasMask](APP/images/gas_mask-removebg-preview.png)
