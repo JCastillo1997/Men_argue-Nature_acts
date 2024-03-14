@@ -35,9 +35,7 @@
 ## About The Project
 ![Streamlit Logo](https://www.streamlit.io/images/brand/streamlit-logo-primary-colormark-darktext.png)
 
-![Screen Shot](SCREENSHOTS/Header.png)
 
-SCREENSHOTS/comparison.png
 
 SCREENSHOTS/Captura de pantalla 2024-03-14 093459.png)
 
@@ -45,6 +43,7 @@ Streamlit App: Pollution Prediction and Comparison
 This Streamlit application provides a user-friendly interface for fetching air quality data, making predictions based on machine learning models, and comparing predicted pollution levels with historical averages. The app allows users to input a city name and fetch real-time air quality data, which is then used to generate predictions for future pollution levels.
 
 Features:
+![Screen Shot](SCREENSHOTS/Header.png)
 Data Fetching: Users can input a city name, and the app fetches real-time air quality data and city information.
 Prediction Generation: Machine learning models are applied to the fetched data to generate predictions for future pollution levels.
 Data Comparison: Predicted pollution levels are compared with historical averages to provide insights into potential changes in air quality.
@@ -52,7 +51,12 @@ Custom Prediction Models: Users can insert any prediction model in the designate
 Functionality:
 Data Fetching and Processing: The app fetches air quality data and city information from external sources and processes it to generate predictions.
 Prediction Generation: Machine learning models are applied to the fetched data to generate predictions for pollutant levels.
+![Comparison Screenshot](SCREENSHOTS/comparison.png)
+
 Data Visualization: Predicted pollution levels are visualized using animated bar charts to compare them with historical averages.
+
+![Captura de pantalla](SCREENSHOTS/Captura%20de%20pantalla%202024-03-14%20093459.png)
+
 Usage:
 Input City Name: Enter the name of a city in the provided text input field.
 Fetch Data and Make Predictions: Click the button to fetch real-time data for the specified city, generate predictions, and compare them with historical averages.
