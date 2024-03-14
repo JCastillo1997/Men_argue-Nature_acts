@@ -46,7 +46,7 @@ def fetch_data(city):
     merged_df.drop(columns=['key'], inplace=True)
     numeric_columns = merged_df.select_dtypes(include=['number']).columns
     avg_row = merged_df[numeric_columns].sum()
-    return merged_df, avg_row
+    return merged_df,avg_row
 
 
 def make_predictions(city, num_predictions):
@@ -89,10 +89,10 @@ def main():
         data, avg_row = fetch_data(city_input)
         st.write(data)
 
-        st.write('Average Values for Numeric Columns:')
-        st.write(avg_row)
+        st.write('average values for pollutants:')
+        st.write(avg_row[['co','no2','o3','so2','pm2.5','pm10']])
 
-        st.write(f'Making {num_predictions} predictions...')
+        st.write('applying the model to the predictions')
         predictions, _ = make_predictions(city_input, num_predictions)
         st.write(predictions)
 
@@ -266,8 +266,6 @@ def main():
 
                 st.pyplot(fig)
                 
-    st.title('Pollution Level Comparison')
-    plot_pollution_comparison(avg_row, predictions)
 
 
 if __name__ == '__main__':
