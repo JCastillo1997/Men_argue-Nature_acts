@@ -33,8 +33,9 @@
 * [Acknowledgements](#acknowledgements)
 
 ## About The Project
+![Streamlit Logo](https://www.streamlit.io/images/brand/streamlit-logo-primary-colormark-darktext.png)
 
-![Screen Shot](SCREENSHOTS/Header.png
+![Screen Shot](SCREENSHOTS/Header.png)
 
 SCREENSHOTS/comparison.png
 
@@ -96,12 +97,12 @@ npm install npm@latest -g
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
+1. Get a free API Key at [Castillof1997@gmail.com](https://example.com)
 
 2. Clone the repo
 
 ```sh
-git clone https://github.com/your_username_/Project-Name.git
+git clone https://github.com/JCastillo1997/Men_argues-Nature_acts.git
 ```
 
 3. Install NPM packages
