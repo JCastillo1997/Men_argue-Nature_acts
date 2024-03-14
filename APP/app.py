@@ -1,4 +1,4 @@
-import sklearn; print(sklearn.__version__)
+import sklearn
 import streamlit as st
 import numpy as np
 import pandas as pd
