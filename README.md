@@ -3,7 +3,7 @@
   <h3 align="center">Men_argue-Nature-acts</h3>
 
   <p align="center">
-    Kill pollution, before itl kills you.
+    Kill pollution, before it kills you.
     <br/>
     <br/>
     <a href="https://github.com/JCastillo1997/Men_argue-Nature_acts"><strong>Explore the docs »</strong></a>
@@ -89,13 +89,8 @@ This Streamlit app is designed for educational and demonstrative purposes to sho
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+Python and the libraries listed
 
-* npm
-
-```sh
-npm install npm@latest -g
-```
 
 ### Installation
 
@@ -107,7 +102,7 @@ npm install npm@latest -g
 git clone https://github.com/JCastillo1997/Men_argues-Nature_acts.git
 ```
 
-3. Install NPM packages
+3. Install necessary packages
 
 ```sh
 npm install
@@ -121,9 +116,7 @@ const API_KEY = 'ENTER YOUR API';
 
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+Insert the model from the compression and just ask it to make predictions.
 
 ## Roadmap
 
