@@ -41,12 +41,19 @@ This Streamlit application provides a user-friendly interface for fetching air q
 
 Features:
 ![Screen Shot](SCREENSHOTS/Header.png)
+
 Data Fetching: Users can input a city name, and the app fetches real-time air quality data and city information.
+
 Prediction Generation: Machine learning models are applied to the fetched data to generate predictions for future pollution levels.
+
 Data Comparison: Predicted pollution levels are compared with historical averages to provide insights into potential changes in air quality.
+
 Custom Prediction Models: Users can insert any prediction model in the designated folder, and if properly formatted, the app will make predictions based on that model.
+
 Functionality:
+
 Data Fetching and Processing: The app fetches air quality data and city information from external sources and processes it to generate predictions.
+
 Prediction Generation: Machine learning models are applied to the fetched data to generate predictions for pollutant levels.
 
 ![Comparison Screenshot](SCREENSHOTS/comparison.png)
